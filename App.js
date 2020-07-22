@@ -1,9 +1,8 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import Options from './src/screens/Options';
+import Home from './src/screens/Home';
 
 export default App = () => {
   return (
-    <Options />
+    <Home />
   );
 };
