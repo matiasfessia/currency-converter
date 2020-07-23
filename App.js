@@ -1,8 +1,8 @@
 import React from 'react';
-import Home from './src/screens/Home';
+import Navigation from './src/config/Navigation';
 
 export default App = () => {
   return (
-    <Home />
+    <Navigation />
   );
 };
