@@ -7,10 +7,10 @@ import {
   Dimensions,
   Text,
   ScrollView,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
-import { Entypo } from '@expo/vector-icons';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Entypo } from "@expo/vector-icons";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { format } from "date-fns";
 import colors from "../constants/colors";
 import ConversionInput from "../components/ConversionInput";
@@ -54,19 +54,18 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   header: {
-    alignItems: 'flex-end',
-    marginHorizontal: 20
-  }
+    alignItems: "flex-end",
+    marginHorizontal: 20,
+  },
 });
 
 const Home = ({ navigation }) => {
   const baseCurrency = "USD";
-  const quoteCurrency = "ARS";
+  const quoteCurrency = "RUB";
   const convertionRate = 75.5;
   const date = new Date();
 
   const [scrollEnabled, setScrollEnabled] = useState(false);
-
 
   return (
     <View style={styles.container}>
@@ -74,7 +73,7 @@ const Home = ({ navigation }) => {
         <StatusBar barStyle="light-content" backgroundColor={colors.blue} />
 
         <SafeAreaView style={styles.header}>
-          <TouchableOpacity onPress={() => navigation.push('Options')}>
+          <TouchableOpacity onPress={() => navigation.push("Options")}>
             <Entypo name="cog" size={32} color={colors.white} />
           </TouchableOpacity>
         </SafeAreaView>
@@ -98,14 +97,24 @@ const Home = ({ navigation }) => {
           <ConversionInput
             text={baseCurrency}
             value="123"
-            onButtonPress={() => alert("todo!")}
+            onButtonPress={() =>
+              navigation.push("CurrencyList", {
+                title: "Base Currency",
+                activeCurrency: baseCurrency,
+              })
+            }
             onchangeText={(text) => console.log("text", text)}
             keyboardType="numeric"
           />
           <ConversionInput
             text={quoteCurrency}
             value="123"
-            onButtonPress={() => alert("todo!")}
+            onButtonPress={() =>
+              navigation.push("CurrencyList", {
+                title: "Quote Currency",
+                activeCurrency: quoteCurrency,
+              })
+            }
             editable={false}
           />
 
@@ -118,7 +127,11 @@ const Home = ({ navigation }) => {
 
           <Button text="Reverse Currencies" onPress={() => alert("todo!")} />
 
-          <KeyboardSpacer onToggle={(keyboardIsVisible) => setScrollEnabled(keyboardIsVisible)} />
+          <KeyboardSpacer
+            onToggle={(keyboardIsVisible) =>
+              setScrollEnabled(keyboardIsVisible)
+            }
+          />
         </View>
       </ScrollView>
     </View>
