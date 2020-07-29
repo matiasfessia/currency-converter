@@ -60,12 +60,18 @@ const styles = StyleSheet.create({
 });
 
 const Home = ({ navigation }) => {
-  const baseCurrency = "USD";
-  const quoteCurrency = "RUB";
-  const convertionRate = 75.5;
+  const [baseCurrency, setBaseCurrency] = useState("USD");
+  const [quoteCurrency, setQuoteCurrency] = useState("RUB");
+  const [value, setValue] = useState("100");
+  const [scrollEnabled, setScrollEnabled] = useState(false);
+
+  const convertionRate = 1.02;
   const date = new Date();
 
-  const [scrollEnabled, setScrollEnabled] = useState(false);
+  const swapCurrencies = () => {
+    setBaseCurrency(quoteCurrency);
+    setQuoteCurrency(baseCurrency);
+  };
 
   return (
     <View style={styles.container}>
@@ -96,19 +102,19 @@ const Home = ({ navigation }) => {
 
           <ConversionInput
             text={baseCurrency}
-            value="123"
+            value={value}
             onButtonPress={() =>
               navigation.push("CurrencyList", {
                 title: "Base Currency",
                 activeCurrency: baseCurrency,
               })
             }
-            onchangeText={(text) => console.log("text", text)}
+            onChangeText={(text) => setValue(text)}
             keyboardType="numeric"
           />
           <ConversionInput
             text={quoteCurrency}
-            value="123"
+            value={value && `${(parseFloat(value) * convertionRate).toFixed(2)}`}
             onButtonPress={() =>
               navigation.push("CurrencyList", {
                 title: "Quote Currency",
@@ -125,7 +131,7 @@ const Home = ({ navigation }) => {
             )}.`}
           </Text>
 
-          <Button text="Reverse Currencies" onPress={() => alert("todo!")} />
+          <Button text="Reverse Currencies" onPress={() => swapCurrencies()} />
 
           <KeyboardSpacer
             onToggle={(keyboardIsVisible) =>
