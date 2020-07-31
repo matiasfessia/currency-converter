@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react";
+import React, { memo, useState, useContext } from "react";
 import {
   View,
   StyleSheet,
@@ -16,6 +16,7 @@ import colors from "../constants/colors";
 import ConversionInput from "../components/ConversionInput";
 import Button from "../components/Button";
 import KeyboardSpacer from "../components/KeyboardSpacer";
+import { ConversionContext } from '../util/ConversionContext';
 
 const screen = Dimensions.get("window");
 
@@ -60,18 +61,13 @@ const styles = StyleSheet.create({
 });
 
 const Home = ({ navigation }) => {
-  const [baseCurrency, setBaseCurrency] = useState("USD");
-  const [quoteCurrency, setQuoteCurrency] = useState("RUB");
   const [value, setValue] = useState("100");
   const [scrollEnabled, setScrollEnabled] = useState(false);
 
   const convertionRate = 1.02;
   const date = new Date();
 
-  const swapCurrencies = () => {
-    setBaseCurrency(quoteCurrency);
-    setQuoteCurrency(baseCurrency);
-  };
+  const { baseCurrency, quoteCurrency, swapCurrencies, setBaseCurrency, setQuoteCurrency } = useContext(ConversionContext);
 
   return (
     <View style={styles.container}>
@@ -107,6 +103,7 @@ const Home = ({ navigation }) => {
               navigation.push("CurrencyList", {
                 title: "Base Currency",
                 activeCurrency: baseCurrency,
+                onChange: (currency) => setBaseCurrency(currency)
               })
             }
             onChangeText={(text) => setValue(text)}
@@ -119,6 +116,7 @@ const Home = ({ navigation }) => {
               navigation.push("CurrencyList", {
                 title: "Quote Currency",
                 activeCurrency: quoteCurrency,
+                onChange: (currency) => setQuoteCurrency(currency)
               })
             }
             editable={false}
